@@ -1,0 +1,88 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "RapidQ 賴皮怪",
+    "description": "RapidQ is a party-game that makes it easy to create, share and play in minutes with your mobile.",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Home",
+      "description": "首頁"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "JWT Token"
+    }
+  },
+  "paths": {},
+  "definitions": {
+    "Success": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "成功訊息"
+        }
+      }
+    },
+    "Error400": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "錯誤訊息"
+        }
+      }
+    },
+    "ErrorToken": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "false"
+        },
+        "message": {
+          "type": "string",
+          "example": "你尚未登入"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "40300"
+            }
+          }
+        }
+      }
+    },
+    "Error404": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "外太空也找不到這個頁面"
+        }
+      }
+    },
+    "Error500": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "系統錯誤，請稍後再試"
+        }
+      }
+    }
+  }
+}
