@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../models/userModel');
 
 const jwt = require('jsonwebtoken');
-const userSockets = require('../utils/userSockets');
+// const userSockets = require('../utils/userSockets');
 let io;
 
 function connectSocketIO(server) {

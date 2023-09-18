@@ -5,7 +5,7 @@ const initUsers = require('../db/initUsers');
 
 const DB = process.env.DATABASE;
 const INIT_DB = process.env.INIT_DB === 'true';
-console.log('server on');
+console.log('Rapid Q is activated!');
 // mongoose
 //     .connect(DB)
 //     .then(async () => {
