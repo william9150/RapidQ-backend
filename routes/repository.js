@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const repos = require('../controller/repositoryController');
 
 /* 01取得所有題庫 */
 router.get('/', async function (req, res, next) {
-    res.send(`取得所有題庫`);
+    repos.getAll(req, res, next);
 });
 
 /* 02取得指定題庫詳情 */
