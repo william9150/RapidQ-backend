@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
+    thirdPartyId: {
+        type: String,
+        default: '',
+    },
     email: {
         type: String,
         required: [true, 'Please enter your email.'],
@@ -8,26 +12,10 @@ const userSchema = new mongoose.Schema({
         select: false,
         trim: true,
     },
-    googleId: {
-        type: String,
-        default: '',
-    },
     password: {
         type: String,
         minlength: 8,
         select: false,
-        trim: true,
-    },
-    firstName: {
-        type: String,
-        trim: true,
-    },
-    lastName: {
-        type: String,
-        trim: true,
-    },
-    phone: {
-        type: String,
         trim: true,
     },
     avatarPath: {
@@ -38,7 +26,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-
+    status: {
+        type: Boolean,
+        default: true,
+    },
+    lastLoginAt: {
+        type: Date,
+        default: Date.now,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
