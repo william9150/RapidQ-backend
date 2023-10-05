@@ -1,43 +1,65 @@
 {
-    "name": "rapid-q",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "start": "node ./bin/www",
-        "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
-        "prod": "cross-env NODE_ENV=prod nodemon ./bin/www",
-        "format:check": "prettier --check .",
-        "format:write": "prettier --write .",
-        "lint:check": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "swagger": "node ./swagger.js"
-    },
-    "dependencies": {
-        "axios": "^1.4.0",
-        "bcryptjs": "^2.4.3",
-        "cookie-parser": "~1.4.4",
-        "cors": "^2.8.5",
-        "crypto-js": "^4.1.1",
-        "debug": "~2.6.9",
-        "dotenv": "^16.0.3",
-        "express": "~4.16.1",
-        "jsonwebtoken": "^9.0.0",
-        "moment": "^2.29.4",
-        "mongoose": "^7.0.3",
-        "morgan": "~1.9.1",
-        "multer": "^1.4.5-lts.1",
-        "passport": "^0.6.0",
-        "passport-google-oauth20": "^2.0.0",
-        "socket.io": "^4.6.2",
-        "swagger-autogen": "^2.23.1",
-        "swagger-ui-express": "^4.6.2",
-        "validator": "^13.9.0"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0.3",
-        "eslint": "^8.39.0",
-        "eslint-config-prettier": "^8.8.0",
-        "prettier": "^2.8.8",
-        "prettier-eslint": "^15.0.1"
+  "name": "RapidQ",
+  "version": "0.0.1",
+  "description": "RapidQ is a party game allowing you to easily create, share, and play within minutes using your mobile.",
+  "type": "module",
+  "engines": {
+    "node": ">=12.19.0"
+  },
+  "scripts": {
+    "start": "node build/app.js",
+    "dev": "nodemon app.js",
+    "dev_temp": "nodemon --exec app.js",
+    "lint": "xo",
+    "swagger": "node ./swagger.js"
+  },
+  "xo": {
+    "prettier": true,
+    "plugins": [
+      "unicorn"
+    ],
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        {
+          "case": "camelCase"
+        }
+      ]
     }
+  },
+  "author": "N3",
+  "url": "",
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/sticky": "^1.0.0",
+    "axios": "^0.21.2",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.9",
+    "socket.io": "^3.0.0",
+    "socket.io-redis": "^6.0.1",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.6.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.12.17",
+    "@babel/core": "7.12.17",
+    "@babel/node": "7.12.17",
+    "@babel/plugin-transform-runtime": "^7.13.8",
+    "@babel/preset-env": "7.12.17",
+    "@babel/runtime": "7.12.18",
+    "algoliasearch": "4.8.5",
+    "babel-eslint": "10.1.0",
+    "bcrypt": "5.0.0",
+    "consola": "2.15.3",
+    "dateformat": "4.5.1",
+    "dotenv": "8.2.0",
+    "eslint-config-xo-space": "^0.27.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "2.0.7",
+    "prettier": "2.2.1",
+    "xo": "^0.40.1"
+  }
 }

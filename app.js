@@ -1,27 +1,39 @@
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const express = require('express');
-const logger = require('morgan');
-const path = require('path');
-const { appError, errorHandlerMainProcess } = require('./utils/errorHandler');
+import './database/db.js';
+import http from 'node:http';
+import express from 'express';
+import cors from 'cors';
+import consola from 'consola';
+import routes from './routes.js';
+
+import { socker } from './socker/index.js';
+import { handleError, authenticated } from './middlewares/index.js';
+import { config } from './config.js';
 
 const app = express();
+const server = new http.Server(app);
+socker(server);
 
-app.use(cors());
-app.use(logger('dev'));
+app.use(cors({ origin: config.ALLOWLIST_HOSTS, credentials: true }));
+// app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/users', authenticated);
+// app.use('/search', authenticated);
 
-require('./connections');
-require('./routes')(app);
+routes(app);
 
-// 錯誤管理
-app.use(errorHandlerMainProcess);
-app.use((req, res, next) => {
-    next(appError(404, '40401', '無此路由資訊'));
+app.use((error, _request, response, _) => {
+  handleError(error, response);
 });
-require('./utils/process');
 
-module.exports = app;
+// app.listen(config.ALLOWLIST_HOSTS, () => {
+//   consola.success(`Api listening on port ${config.ALLOWLIST_HOSTS}!`);
+// });
+app.listen(config.API_PORT, () => {
+  consola.success(`Api listening on port ${config.API_PORT}!`);
+  consola.success(`Swagger docs on http://localhost:${config.API_PORT}/api-docs'`);
+});
+
+// server.listen(config.SOCKET_PORT, () => {
+//   consola.success(`Socker listening on port ${config.SOCKET_PORT}!`);
+//   consola.info(`Api and socker whitelisted for ${config.ALLOWLIST_HOSTS}`);
+// });
