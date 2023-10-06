@@ -1,5 +1,4 @@
 import swaggerAutogen from 'swagger-autogen';
-// const definitions = require('./swagger-defintion');
 import * as definitions from './swagger-definition.mjs';
 
 const doc = {
@@ -23,6 +22,6 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./routes.js']; // 進入點/注入點，分析 router 和自動生成
+const endpointsFiles = ['./routes/index.js']; // 進入點/注入點，分析 router 和自動生成
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
