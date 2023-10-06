@@ -1,24 +1,25 @@
 /* eslint-disable operator-linebreak */
 import dotenv from 'dotenv';
-import axios from 'axios';
-import consola from 'consola';
 import fs from 'fs';
+
 if (fs.existsSync('.env')) {
   dotenv.config();
+  consola.success('.env file loaded successfully');
 } else if (fs.existsSync('sample.env')) {
   dotenv.config({ path: 'sample.env' });
+  consola.success('sample.env file loaded successfully');
+} else {
+  consola.error('No .env or sample.env file found');
 }
-// dotenv.config();
 
 function getDefault(value, defaultValue) {
   if (!value || value === 'undefined') {
     return defaultValue;
   }
-
   return value;
 }
 
-const productionHosts = ['https://fifa.sauravmh.com', 'https://sauravmh.vercel.app', 'playfifa.vercel.app'];
+const productionHosts = [''];
 const devHosts = ['http://localhost:3000'];
 
 export const config = {
@@ -46,18 +47,4 @@ export const config = {
     getDefault(process.env.NODE_ENV, 'development') === 'production'
       ? ['name', 'positions', 'Overall Rating', 'Skill Moves', 'objectID', 'photo_url']
       : ['title', 'image', 'rating', 'score', 'year', 'genre'],
-};
-
-//這段應該用不到
-export const algoliaConfig = {
-  eCommerce: {
-    ALGOLIA_ID: 'B1G2GM9NG0',
-    ALGOLIA_SEARCH_API_KEY: 'aadef574be1f9252bb48d4ea09b5cfe5',
-    ALGOLIA_INDEX_NAME: 'demo_ecommerce',
-  },
-  movies: {
-    ALGOLIA_ID: 'latency',
-    ALGOLIA_SEARCH_API_KEY: '56f24e4276091e774e8157fe4b8b11f6',
-    ALGOLIA_INDEX_NAME: 'movies',
-  },
 };

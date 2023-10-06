@@ -8,7 +8,7 @@ mongoose.connect(config.DB_URL, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
-
+console.log("DB_URL:", config.DB_URL)
 const db = mongoose.connection;
 // When successfully connected
 db.on('connected', () => {
