@@ -22,4 +22,23 @@ const Error500 = {
   message: '系統錯誤，請稍後再試',
 };
 
-export { Success, Error400, ErrorToken, Error404, Error500 };
+const createRoomDetail = {
+  name: 'Erik 建立的遊戲',
+  room_setting: {
+    answering_seconds: 30,
+    skipping_method: '僅手動',
+    battle_situation: true,
+    group_method: '隨機分組',
+    group_num: 2,
+    maximum_player: 150,
+  },
+  creator_id: 'uuid',
+};
+
+export { Success,
+         Error400,
+         ErrorToken,
+         Error404,
+         Error500,
+         createRoomDetail,
+};

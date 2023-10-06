@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import { config } from '../config.js';
 
 const roomsSchema = new mongoose.Schema({
   name: {
     type: String,
     select: true,
     trim: true,
+    unique: true,
   },
   room_setting: {
     answering_seconds: {
@@ -88,7 +88,7 @@ const roomsSchema = new mongoose.Schema({
         ],
       },
       answer: {
-        type: Array[Number],
+        type: Number,
       },
     },
     createAt: {
@@ -107,8 +107,7 @@ const roomsSchema = new mongoose.Schema({
     type: String,
     enum: ['尚未開始', '等待中', '遊玩中', '已結束'],
   },
-  players_detail: [
-    {
+  players_detail: {
       code: {
         type: String,
       },
@@ -121,7 +120,6 @@ const roomsSchema = new mongoose.Schema({
       },
       name: {
         type: String,
-        unique: true,
       },
       info: {
         ip: {
@@ -129,14 +127,10 @@ const roomsSchema = new mongoose.Schema({
         },
         user_agent: {
           type: String,
-        },
       },
     },
-  ],
+  },
   playing_history: {
-    leaderboard: {
-      type: Array,
-    },
     leaderboard: {
       type: String,
     },
@@ -185,8 +179,3 @@ const roomsSchema = new mongoose.Schema({
 
 export default roomsSchema;
 
-// export function isValid(roomId) {
-//   // Check if roomId matches the specified regex
-//   const isValid = config.ROOM_ID_RX.test(roomId);
-//   return isValid;
-// }

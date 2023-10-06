@@ -78,6 +78,77 @@
           }
         ]
       }
+    },
+    "/room/create": {
+      "post": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "建立房間 (Create Room)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "parameter_name",
+            "in": "body",
+            "description": "上傳內容",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Erik 建立的遊戲"
+                },
+                "room_setting": {
+                  "type": "object",
+                  "properties": {
+                    "answering_seconds": {
+                      "type": "number",
+                      "example": 30
+                    },
+                    "skipping_method": {
+                      "type": "string",
+                      "example": "僅手動"
+                    },
+                    "battle_situation": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "group_method": {
+                      "type": "string",
+                      "example": "隨機分組"
+                    },
+                    "group_num": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "maximum_player": {
+                      "type": "number",
+                      "example": 150
+                    }
+                  }
+                },
+                "creator_id": {
+                  "type": "string",
+                  "example": "uuid"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -99,6 +170,18 @@
     },
     "Success": {
       "message": "成功訊息"
+    },
+    "createRoomDetail": {
+      "name": "Erik 建立的遊戲",
+      "room_setting": {
+        "answering_seconds": 30,
+        "skipping_method": "僅手動",
+        "battle_situation": true,
+        "group_method": "隨機分組",
+        "group_num": 2,
+        "maximum_player": 150
+      },
+      "creator_id": "uuid"
     }
   }
 }
