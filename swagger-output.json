@@ -24,65 +24,220 @@
       "description": "JWT Token"
     }
   },
-  "paths": {},
-  "definitions": {
-    "Success": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "成功訊息"
-        }
-      }
-    },
-    "Error400": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "錯誤訊息"
-        }
-      }
-    },
-    "ErrorToken": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string",
-          "example": "false"
-        },
-        "message": {
-          "type": "string",
-          "example": "你尚未登入"
-        },
-        "error": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "40300"
-            }
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "Error404": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "外太空也找不到這個頁面"
+    "/auth/getWebsocketIp": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
-    "Error500": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "系統錯誤，請稍後再試"
+    "/auth/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "reserved": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
+    },
+    "/auth/verify": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "requests": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error400": {
+      "message": "錯誤訊息"
+    },
+    "Error404": {
+      "message": "外太空也找不到這個頁面"
+    },
+    "Error500": {
+      "message": "系統錯誤，請稍後再試"
+    },
+    "ErrorToken": {
+      "status": "false",
+      "message": "你尚未登入",
+      "error": {
+        "name": "40300"
+      }
+    },
+    "Success": {
+      "message": "成功訊息"
     }
   }
 }

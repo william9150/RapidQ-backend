@@ -1,15 +1,27 @@
 {
-    "root": true,
-    "parserOptions": {
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "extends": ["eslint:recommended", "prettier"],
-    "env": {
-        "es2021": true,
-        "node": true
-    },
-    "rules": {
-        "no-console": "error"
-    }
+  "extends": ["xo-space"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "no-warning-comments": "off",
+    "prettier/prettier": "warn",
+    "object-curly-spacing": ["warn", "always"],
+    "comma-dangle": "off",
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "comments": 120,
+        "ignoreComments": false,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ]
+  }
 }
