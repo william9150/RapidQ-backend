@@ -29,7 +29,7 @@ const authController = {
       const match = await bcrypt.compare(password, user.password);
 
       if (user && match) {
-        const token = jwt.sign({ email: user.email }, JWT_SECRET);
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET);
         return response.json({ success: true, token });
       }
 

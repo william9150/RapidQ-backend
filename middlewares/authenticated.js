@@ -4,10 +4,11 @@ import { config } from '../config.js';
 const authenticated = (request, response, next) => {
   const token = request.headers.authorization;
   console.log('驗證token', token);
-  jwt.verify(token, config.JWT_SECRET, (error, _) => {
+  jwt.verify(token, config.JWT_SECRET, (error, decodedId) => {
     if (error) {
       response.json('Token not provided');
     } else {
+      request.user.userId = decodedId;
       next();
     }
   });
