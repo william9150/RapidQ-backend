@@ -17,7 +17,7 @@ app.use(cors({ origin: config.ALLOWLIST_HOSTS, credentials: true }));
 // app.use(cors());
 app.use(express.json());
 // app.use('/users', authenticated);
-// app.use('/search', authenticated);
+app.use('/repos', authenticated);
 
 routes(app);
 
