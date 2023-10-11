@@ -32,7 +32,6 @@ const createRoomDetail = {
     group_num: 2,
     maximum_player: 150,
   },
-  creator_id: 'uuid',
 };
 
 const googleCallback = {

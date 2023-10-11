@@ -19,16 +19,6 @@
     }
   },
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/profile": {
       "get": {
         "tags": [
@@ -175,12 +165,6 @@
             "schema": {
               "$ref": "#/definitions/Success"
             }
-          },
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         },
         "security": [
@@ -285,10 +269,6 @@
               "example": 150
             }
           }
-        },
-        "creator_id": {
-          "type": "string",
-          "example": "uuid"
         }
       }
     },

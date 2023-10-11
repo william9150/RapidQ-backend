@@ -4,8 +4,8 @@ import roomModel from '../models/roomsModel.js';
 const roomController = {
   create: handleErrorAsync(async (req, res, next) => {
     // Extract the room data from the request body
-    const roomData = request.body;
-    console.log("req:", req)
+    const roomData = req.body;
+    roomData.createId = req.user._id;
     // Function to handle duplicate room names
     const handleDuplicateName = async (name) => {
       let newName = name;
@@ -33,9 +33,9 @@ const roomController = {
       }
       // Create a new room with the updated name
       const createdRoom = await roomModel.create(roomData);
-      response.status(201).json(createdRoom);
+      res.status(201).json(createdRoom);
     } catch (error) {
-      return response.status(500).json({ error: error });
+      return res.status(500).json({ error: error });
     }
   },
 )}
