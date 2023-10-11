@@ -6,7 +6,7 @@ import consola from 'consola';
 import routes from './routes/index.js';
 
 import { socker } from './socker/index.js';
-import { handleError, authenticated } from './middlewares/index.js';
+import { handleError, authenticated } from './middleware/index.js';
 import { config } from './config.js';
 
 const app = express();

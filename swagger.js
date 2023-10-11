@@ -8,7 +8,6 @@ const doc = {
   },
   host: process.env.FRONTEND_URL,
   schemes: ['http', 'https'],
-  tags: [{ name: 'Home', description: '首頁' }],
   definitions,
   securityDefinitions: {
     // Token

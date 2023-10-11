@@ -2,7 +2,7 @@ import { Server } from 'socket.io';
 import redisAdapter from 'socket.io-redis';
 import consola from 'consola';
 
-import { verifyToken } from '../middlewares/index.js';
+import { verifyToken } from '../middleware/index.js';
 import { config } from '../config.js';
 import Room from './roomManager.js';
 import { fixedOrigin } from './corsFixer.js';

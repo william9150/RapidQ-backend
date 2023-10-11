@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { config } from '../config.js';
-import { ErrorHandler, verifyToken } from '../middlewares/index.js';
+import { ErrorHandler, verifyToken } from '../middleware/index.js';
 import Users, { checkExisting } from '../models/usersModel.js';
 
 const { JWT_SECRET, SALT_ROUNDS } = config;

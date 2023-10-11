@@ -6,12 +6,6 @@
     "version": "1.0.0"
   },
   "basePath": "/",
-  "tags": [
-    {
-      "name": "Home",
-      "description": "首頁"
-    }
-  ],
   "schemes": [
     "http",
     "https"
@@ -35,7 +29,7 @@
         }
       }
     },
-    "/auth/profile": {
+    "/profile": {
       "get": {
         "tags": [
           "Account"
@@ -57,7 +51,7 @@
         ]
       }
     },
-    "/auth/info-form": {
+    "/info-form": {
       "get": {
         "tags": [
           "Account"
@@ -141,6 +135,12 @@
             "schema": {
               "$ref": "#/definitions/Success"
             }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "security": [
@@ -148,6 +148,107 @@
             "Bearer": []
           }
         ]
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "第三方登入 - google 轉向同意頁",
+        "description": "",
+        "responses": {
+          "302": {
+            "description": "第三方登入 - google 轉向同意頁"
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error500"
+            }
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "第三方登入 - 取得 google 資訊",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "第三方登入 - 取得 google 資訊",
+            "schema": {
+              "$ref": "#/definitions/googleCallback"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error500"
+            }
+          }
+        }
+      }
+    },
+    "/auth/google/sign-in/{userId}": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "第三方登入 - 註冊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "parameter_name",
+            "in": "body",
+            "description": "請將 /google/callback 回傳資訊提供到這支 api",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone": {
+                  "type": "string",
+                  "example": "0912345678"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "小明"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "王"
+                }
+              },
+              "required": [
+                "phone",
+                "firstName",
+                "lastName"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "第三方登入 google - 註冊",
+            "schema": {
+              "$ref": "#/definitions/googleSignUp"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error500"
+            }
+          }
+        }
       }
     }
   },
