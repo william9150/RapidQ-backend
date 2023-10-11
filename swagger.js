@@ -1,5 +1,5 @@
 import swaggerAutogen from 'swagger-autogen';
-import * as definitions from './swagger-definition.mjs';
+import definitions from './swagger-definition.mjs';
 
 const doc = {
   info: {
