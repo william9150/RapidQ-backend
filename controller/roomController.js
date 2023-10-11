@@ -1,10 +1,11 @@
+import { appError, handleErrorAsync } from '../utils/errorHandler.js';
 import roomModel from '../models/roomsModel.js';
 
 const roomController = {
-  create: async (request, response) => {
+  create: handleErrorAsync(async (req, res, next) => {
     // Extract the room data from the request body
     const roomData = request.body;
-
+    console.log("req:", req)
     // Function to handle duplicate room names
     const handleDuplicateName = async (name) => {
       let newName = name;
@@ -37,7 +38,7 @@ const roomController = {
       return response.status(500).json({ error: error });
     }
   },
-};
+)}
 
 
 export default roomController;

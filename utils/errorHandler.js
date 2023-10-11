@@ -5,7 +5,7 @@
  * @param {String} errName
  * @param {String} errMessage
  */
-export const appError = (statusCode, errName, errMessage) => {
+const appError = (statusCode, errName, errMessage) => {
     const error = new Error(errMessage);
     error.name = errName;
     error.statusCode = statusCode;
@@ -20,7 +20,7 @@ export const appError = (statusCode, errName, errMessage) => {
  * @param {Function} func - controller function
  * @return {Next} - 回傳express Next
  */
-export const handleErrorAsync = function (func) {
+const handleErrorAsync = function (func) {
     return function (req, res, next) {
         func(req, res, next).catch(function (error) {
             next(error);
@@ -29,7 +29,7 @@ export const handleErrorAsync = function (func) {
 };
 
 // Dev 環境下的錯誤
-export const resErrorDev = (err, res) => {
+const resErrorDev = (err, res) => {
     res.status(err.statusCode).json({
         status: 'false',
         message: err.message,
@@ -42,7 +42,7 @@ export const resErrorDev = (err, res) => {
  * @param {Error} {statusCode} - error response 用的 statusCode
  * @return {'false'|'error'} - 回傳值 'false' or 'error'
  */
-export const resErrorStatus = ({ statusCode }) => {
+const resErrorStatus = ({ statusCode }) => {
     if (statusCode === 500) {
         return 'error';
     }
@@ -50,7 +50,7 @@ export const resErrorStatus = ({ statusCode }) => {
 };
 
 // Prod 環境下，自己設定的 err 錯誤
-export const resErrorProd = (err, res) => {
+const resErrorProd = (err, res) => {
     const resErrorData = {
         status: '',
         message: '',
@@ -70,7 +70,7 @@ export const resErrorProd = (err, res) => {
     }
 };
 
-export const errorHandlerMainProcess = (err, req, res, next) => {
+const errorHandlerMainProcess = (err, req, res, next) => {
     if (err) {
         err.statusCode = err.statusCode || 500;
         // dev
@@ -85,4 +85,13 @@ export const errorHandlerMainProcess = (err, req, res, next) => {
         }
         resErrorProd(err, res);
     }
+};
+
+export {
+    appError,
+    handleErrorAsync,
+    resErrorDev,
+    resErrorStatus,
+    resErrorProd,
+    errorHandlerMainProcess,
 };

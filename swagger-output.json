@@ -51,66 +51,6 @@
         ]
       }
     },
-    "/info-form": {
-      "get": {
-        "tags": [
-          "Account"
-        ],
-        "summary": "取得使用者表單資料 (Get User Form Data)",
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Success"
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/room/create": {
-      "post": {
-        "tags": [
-          "Room"
-        ],
-        "summary": "建立房間 (Create Room)",
-        "description": "",
-        "parameters": [
-          {
-            "name": "parameter_name",
-            "in": "body",
-            "description": "上傳內容",
-            "schema": {
-              "$ref": "#/definitions/createRoomDetail"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Success"
-            }
-          },
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
     "/auth/google": {
       "get": {
         "tags": [
@@ -210,6 +150,44 @@
             }
           }
         }
+      }
+    },
+    "/room/create": {
+      "post": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "建立房間 (Create Room)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "parameter_name",
+            "in": "body",
+            "description": "上傳內容",
+            "schema": {
+              "$ref": "#/definitions/createRoomDetail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   },

@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { handleErrorAsync, appError } from '../utils/errorHandler.js';
 import User from '../models/usersModel.js';
 
-export const generateJwtToken = async function (userId = '') {
+const generateJwtToken = async function (userId = '') {
     let token = '';
     if (userId) {
         token = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
@@ -12,7 +12,7 @@ export const generateJwtToken = async function (userId = '') {
     return token;
 };
 
-export const generateJwtTokenForEmail = async function (userId = '') {
+const generateJwtTokenForEmail = async function (userId = '') {
     let token = '';
     if (userId) {
         token = jwt.sign({ id: userId }, process.env.JWT_SECRET, {
@@ -22,7 +22,7 @@ export const generateJwtTokenForEmail = async function (userId = '') {
     return token;
 };
 
-export const isAuth = handleErrorAsync(async (req, res, next) => {
+const isAuth = handleErrorAsync(async (req, res, next) => {
     let token = '';
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
@@ -47,7 +47,7 @@ export const isAuth = handleErrorAsync(async (req, res, next) => {
     }
 });
 
-export const isMember = handleErrorAsync(async (req, res, next) => {
+const isMember = handleErrorAsync(async (req, res, next) => {
     let token = '';
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
@@ -71,3 +71,10 @@ export const isMember = handleErrorAsync(async (req, res, next) => {
         return next(appError(400, '40200', '查詢不到此用戶'));
     }
 });
+
+export {
+    isAuth,
+    isMember,
+    generateJwtToken,
+    generateJwtTokenForEmail,
+};
