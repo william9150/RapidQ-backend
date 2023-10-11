@@ -13,10 +13,16 @@ const usersSchema = new mongoose.Schema({
     select: false,
     trim: true,
   },
-  password: {
+  phone: {
     type: String,
-    minlength: 8,
-    select: false,
+    trim: true,
+  },
+  lastName: {
+    type: String,
+    trim: true,
+  },
+  firstName: {
+    type: String,
     trim: true,
   },
   avatarPath: {
