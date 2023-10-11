@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import consola from 'consola';
 import { config } from '../config.js';
-import initUsers from './initUsers.js';
 
 mongoose.connect(config.DB_URL, {
   useNewUrlParser: true,
@@ -13,7 +12,6 @@ const db = mongoose.connection;
 // When successfully connected
 db.on('connected', () => {
   consola.success('Mongoose connection open to', config.DB_URL);
-  initUsers();
 });
 
 // If the connection throws an error
