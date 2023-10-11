@@ -86,46 +86,7 @@
             "in": "body",
             "description": "上傳內容",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Erik 建立的遊戲"
-                },
-                "room_setting": {
-                  "type": "object",
-                  "properties": {
-                    "answering_seconds": {
-                      "type": "number",
-                      "example": 30
-                    },
-                    "skipping_method": {
-                      "type": "string",
-                      "example": "僅手動"
-                    },
-                    "battle_situation": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "group_method": {
-                      "type": "string",
-                      "example": "隨機分組"
-                    },
-                    "group_num": {
-                      "type": "number",
-                      "example": 2
-                    },
-                    "maximum_player": {
-                      "type": "number",
-                      "example": 150
-                    }
-                  }
-                },
-                "creator_id": {
-                  "type": "string",
-                  "example": "uuid"
-                }
-              }
+              "$ref": "#/definitions/createRoomDetail"
             }
           }
         ],

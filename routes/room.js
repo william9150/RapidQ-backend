@@ -13,18 +13,7 @@ router.post('/create', async function (req, res, next) {
     #swagger.parameters['parameter_name'] = {
         in: 'body',
         description: '上傳內容',
-        schema: {
-            name: 'Erik 建立的遊戲',
-            room_setting: {
-                answering_seconds: 30,
-                skipping_method: '僅手動',
-                battle_situation: true,
-                group_method: '隨機分組',
-                group_num: 2,
-                maximum_player: 150,
-            },
-            creator_id: 'uuid',
-        }
+        schema: { $ref: '#/definitions/createRoomDetail' }
     },
     #swagger.responses[200] = {
       description: 'OK',
