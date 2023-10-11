@@ -1,4 +1,4 @@
-import authRoutes from './auth.js';
+import accountRoutes from './account.js';
 import roomRoutes from './room.js';
 import oauthRoutes from './oauth.js';
 import { isAuth } from '../middleware/auth.js';
@@ -7,7 +7,7 @@ import swaggerDocument from '../swagger-output.json' assert { type: 'json' };
 
 export default (route) => {
   route.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-  route.use('/', authRoutes);
+  route.use('/account', isAuth, accountRoutes);
   route.use('/auth', oauthRoutes);
   route.use('/room', isAuth, roomRoutes);
 

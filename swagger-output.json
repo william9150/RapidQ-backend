@@ -19,7 +19,7 @@
     }
   },
   "paths": {
-    "/profile": {
+    "/account/profile": {
       "get": {
         "tags": [
           "Account"
