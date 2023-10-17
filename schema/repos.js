@@ -35,6 +35,7 @@ const questionSchema = new mongoose.Schema({
 const reposSchema = new mongoose.Schema({
   repoName: {
     type: String,
+    default: '未命名題庫',
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -59,3 +60,4 @@ const reposSchema = new mongoose.Schema({
 });
 
 export default reposSchema;
+export { questionSchema, optionSchema };

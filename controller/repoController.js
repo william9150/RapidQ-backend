@@ -1,56 +1,68 @@
 import reposModel from '../models/reposModel.js';
+import { questionSchema, optionSchema } from '../schema/repos.js';
+import { handleErrorAsync } from '../utils/errorHandler.js';
+import getHttpResponse from '../utils/successHandler.js';
 
 const reposController = {
   //Repo-01-01:取得所有repo
-  getAll: (request, response, _) => {
-    reposModel.find({ isDelete: false, isPublic: true }, (error, repos) => {
-      if (error) {
-        return response.json(error);
-      }
-
-      response.json(repos || []);
-    });
-  },
+  getAll: handleErrorAsync(async (request, response, _) => {
+    const repos = await reposModel.find({ $or: [{ userId: request.user._id }, { isPublic: true }] });
+    response.status(200).json(
+      getHttpResponse({
+        data: repos,
+      })
+    );
+  }),
   //Repo-01-02:取得指定的repo
-  getOne: (request, response, _) => {
-    reposModel.findById(request.params.id, (error, user) => {
-      if (error) {
-        return response.json(error);
-      }
-
-      response.json(user || {});
-    });
-  },
+  getOne: handleErrorAsync(async (request, response, _) => {
+    const repo = reposModel.findById(request.params.id);
+    response.status(200).json(
+      getHttpResponse({
+        data: repo,
+      })
+    );
+  }),
   //Repo-01-03:建立一個新的repo
-  createRepo: (request, response, _) => {
-    const newRepo = new reposModel(request.body);
-
+  createRepo: handleErrorAsync(async (request, response, _) => {
+    const newRepo = new reposModel({
+      repoName: request.body.repoName || '未命名題庫',
+      userId: request.user._id,
+      isPublic: request.body.isPublic || true,
+    });
+    newRepo.save((error, repo) => {
+      if (error) {
+        return next(error);
+      }
+      response.status(200).json(
+        getHttpResponse({
+          data: repo,
+        })
+      );
+    });
+  }),
+  //Repo-01-04:複製指定的repo
+  cloneRepo: handleErrorAsync(async (request, response, _) => {
+    const oldRepo = await reposModel.findById(request.params.id);
+    if (!oldRepo) {
+      throw new appError('找不到指定的題庫', 404);
+    }
+    const newRepo = new reposModel(oldRepo);
+    newRepo._id = null;
+    newRepo.isDelete = false;
     newRepo.save((error, repo) => {
       if (error) {
         return response.json(error);
       }
-      response.json(repo);
+      response.status(200).json(
+        getHttpResponse({
+          data: repo,
+        })
+      );
     });
-  },
-  //Repo-01-04:複製指定的repo
-  cloneRepo: (request, response, _) => {
-    reposModel.findById(request.params.id, (error, repo) => {
-      if (error) {
-        return response.json(error);
-      }
+  }),
 
-      const newRepo = new reposModel(repo);
-      newRepo._id = null;
-      newRepo.save((error, repo) => {
-        if (error) {
-          return response.json(error);
-        }
-        response.json(repo);
-      });
-    });
-  },
   //Repo-01-05:刪除指定的repo
-  delete: (request, response, _) => {
+  delete: handleErrorAsync(async (request, response, _) => {
     reposModel.findOneAndUpdate(
       { _id: request.params.id }, //查詢條件
       { isDelete: true }, // 更新內容
@@ -62,9 +74,10 @@ const reposController = {
         response.json(repo);
       }
     );
-  },
+  }),
+
   //Repo-01-06:更新指定的repo(題庫名稱與狀態)
-  updateRepo: (request, response, _) => {
+  updateRepo: handleErrorAsync(async (request, response, _) => {
     reposModel.findOneAndUpdate(request.params.id, request.body, { new: true }, (error, user) => {
       if (error) {
         return response.json(error);
@@ -72,30 +85,37 @@ const reposController = {
 
       response.json(user);
     });
-  },
+  }),
+
   //Repo-01-07:在指定的repo中新增題目(需要產生題目id)
-  addQuestion: (request, response, _) => {
-    reposModel.findById(request.params.id, (error, repo) => {
+  addQuestion: handleErrorAsync(async (request, response, _) => {
+    const newQuestion = {
+      type: request.body.type,
+      title: request.body.title,
+      imgUrl: request.body.imgUrl,
+      options: request.body.options,
+      answer: request.body.answer,
+    };
+    console.log('check point 傳進來的參數', request.params);
+    const repo = await reposModel.findById(request.params.repoId);
+    if (!repo) {
+      throw new appError('找不到指定的題庫', 404);
+    }
+    repo.questions.push(newQuestion);
+    repo.updatedAt = Date.now(); // Update the updatedAt timestamp
+    repo.save((error, repo) => {
       if (error) {
         return response.json(error);
       }
-
-      // Generate a new ObjectId for the question
-      const questionId = new mongoose.Types.ObjectId();
-      const newQuestion = { ...request.body, id: questionId };
-
-      repo.questions.push(newQuestion);
-      repo.updatedAt = Date.now(); // Update the updatedAt timestamp
-      repo.save((error, repo) => {
-        if (error) {
-          return response.json(error);
-        }
-        response.json(repo);
-      });
+      response.status(200).json(
+        getHttpResponse({
+          data: repo,
+        })
+      );
     });
-  },
+  }),
   //Repo-01-08:在指定的repo中修改題目內容
-  updateQuestion: (request, response, _) => {
+  updateQuestion: handleErrorAsync(async (request, response, _) => {
     reposModel.findById(request.params.id, (error, repo) => {
       if (error) {
         return response.json(error);
@@ -111,9 +131,9 @@ const reposController = {
         response.json(repo);
       });
     });
-  },
+  }),
   //Repo-01-09:在指定的repo中取得指定題目內容
-  getQuestion: (request, response, _) => {
+  getQuestion: handleErrorAsync(async (request, response, _) => {
     reposModel.findById(request.params.id, (error, repo) => {
       if (error) {
         return response.json(error);
@@ -122,9 +142,9 @@ const reposController = {
       const question = repo.questions.id(request.params.questionId);
       response.json(question);
     });
-  },
+  }),
   //Repo-01-10:在指定的repo中刪除指定題目
-  deleteQuestion: (request, response, _) => {
+  deleteQuestion: handleErrorAsync(async (request, response, _) => {
     reposModel.findById(request.params.id, (error, repo) => {
       if (error) {
         return response.json(error);
@@ -139,7 +159,7 @@ const reposController = {
         response.json(repo);
       });
     });
-  },
+  }),
 };
 
 export default reposController;
