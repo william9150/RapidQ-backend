@@ -12,8 +12,8 @@ const initUsers = async () => {
       //delete all users
       await Users.deleteMany({});
       //create admin user
-      const hash = bcrypt.hashSync('admin', 10);
-      const newUser = new Users({ email: 'admin@gmail.com', password: hash });
+      //   const hash = bcrypt.hashSync('admin', 10);
+      const newUser = new Users({ email: 'admin@gmail.com', password: 'admin' });
       await newUser.save();
       consola.success('使用者資料初始化成功');
     }

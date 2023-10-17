@@ -1,15 +1,16 @@
 import express from 'express';
 import oauthController from '../controller/oauthController.js';
+import usersController from '../controller/usersController.js';
 
 var router = express.Router();
 
 /* 第三方登入 - google 轉向同意頁 */
 router.get('/google', function (req, res, next) {
-    /**
-     * #swagger.tags = ['Sign-in']
-     * #swagger.summary = '第三方登入 - google 轉向同意頁'
-     */
-    /**
+  /**
+   * #swagger.tags = ['Sign-in']
+   * #swagger.summary = '第三方登入 - google 轉向同意頁'
+   */
+  /**
     #swagger.responses[302] = {
       description: '第三方登入 - google 轉向同意頁',
     }
@@ -18,15 +19,15 @@ router.get('/google', function (req, res, next) {
       schema: { $ref: '#/definitions/Error500' }
     }
   */
-    oauthController.authenticate(req, res, next);
+  oauthController.authenticate(req, res, next);
 });
 /* 第三方登入 - 取得 google 資訊 */
 router.get('/google/callback', function (req, res, next) {
-    /**
-     * #swagger.tags = ['Sign-in']
-     * #swagger.summary = '第三方登入 - 取得 google 資訊'
-     */
-    /**
+  /**
+   * #swagger.tags = ['Sign-in']
+   * #swagger.summary = '第三方登入 - 取得 google 資訊'
+   */
+  /**
   #swagger.responses[200] = {
     description: '第三方登入 - 取得 google 資訊',
     schema: { $ref: '#/definitions/googleCallback' }
@@ -36,16 +37,16 @@ router.get('/google/callback', function (req, res, next) {
     schema: { $ref: '#/definitions/Error500' }
   }
 */
-    oauthController.authenticateCallback(req, res, next);
+  oauthController.authenticateCallback(req, res, next);
 });
 
 /* 第三方登入 - 註冊 */
 router.post('/google/sign-in/:userId', function (req, res, next) {
-    /**
-     * #swagger.tags = ['Sign-in']
-     * #swagger.summary = '第三方登入 - 註冊'
-     */
-    /**
+  /**
+   * #swagger.tags = ['Sign-in']
+   * #swagger.summary = '第三方登入 - 註冊'
+   */
+  /**
   #swagger.parameters['parameter_name'] = {
     in: 'body',
     description: '請將 /google/callback 回傳資訊提供到這支 api',
@@ -64,7 +65,34 @@ router.post('/google/sign-in/:userId', function (req, res, next) {
     schema: { $ref: '#/definitions/Error500' }
   }
 */
-    oauthController.oauthSignUp(req, res, next);
+  oauthController.oauthSignUp(req, res, next);
+});
+
+/* Email登入 */
+router.post('/email/sign-in', function (req, res, next) {
+  usersController.signIn(req, res, next);
+  /**
+   * #swagger.tags = ['Sign-in']
+   * #swagger.summary = 'Email登入'
+   */
+  /**
+  #swagger.parameters['parameter_name'] = {
+    in: 'body',
+    description: '提供單機版使用email直接登入',
+    schema: {
+      $email: 'admin@gmail.com',
+      $password: 'admin',
+    }
+  }
+  #swagger.responses[200] = {
+    description: 'Email登入',
+    schema: {  }
+  }
+  #swagger.responses[500] = {
+    description: '系統錯誤',
+    schema: {  }
+  }
+*/
 });
 
 export default router;
