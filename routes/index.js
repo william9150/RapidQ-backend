@@ -9,5 +9,5 @@ export default (route) => {
   route.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
   route.use('/account', isAuth, accountRoutes);
   route.use('/auth', oauthRoutes);
-  route.use('/room', roomRoutes);
+  route.use('/room', isAuth, roomRoutes);
 };
