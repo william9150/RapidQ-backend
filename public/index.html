@@ -7,21 +7,52 @@
 <body>
   這位少年，歡迎你來到魔法世界，以下請選擇命運的房間
 
+  <!-- 输入Token的文本框 -->
+  <div>
+    <label for="tokenInput">請輸入Token：</label>
+    <input type="text" id="tokenInput">
+    <button id="fetchRooms">获取房间列表</button>
+  </div>
+
   <div>
     <p>房間列表</p>
-    <ul>
-      <li id="room_1"><a href="/room/room_1" target="_blank">1號房間</a></li>
-      <li id="room_2"><a href="/room/room_2" target="_blank">2號房間</a></li>
-      <li id="room_3"><a href="/room/room_3" target="_blank">3號房間</a></li>
-      <li id="room_4"><a href="/room/room_4" target="_blank">4號房間</a></li>
-      <li id="room_5"><a href="/room/room_5" target="_blank">5號房間</a></li>
-      <li id="room_6"><a href="/room/room_6" target="_blank">6號房間</a></li>
-      <li id="room_7"><a href="/room/room_7" target="_blank">7號房間</a></li>
-      <li id="room_8"><a href="/room/room_8" target="_blank">8號房間</a></li>
-      <li id="room_9"><a href="/room/room_9" target="_blank">9號房間</a></li>
-      <li id="room_10"><a href="/room/room_10" target="_blank">10號房間</a></li>
+    <ul id="roomList">
+      <!-- 房间列表将在这里动态生成 -->
     </ul>
   </div>
 
+  <script>
+    // 获取按钮和房间列表元素
+    const fetchButton = document.getElementById('fetchRooms');
+    const roomList = document.getElementById('roomList');
+
+    // 添加点击按钮事件监听器
+    fetchButton.addEventListener('click', () => {
+      // 获取用户输入的Token
+      const token = document.getElementById('tokenInput').value;
+
+      // 发送请求并附加Bearer Token
+      fetch('http://localhost:3000/room/available', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(rooms => {
+        // 清空房间列表
+        roomList.innerHTML = '';
+
+        rooms.forEach(room => {
+          // 创建房间链接并插入到列表中
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="/game_room/${room._id}" target="_blank">${room.name}</a>`;
+          roomList.appendChild(li);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching room list:', error);
+      });
+    });
+  </script>
 </body>
 </html>

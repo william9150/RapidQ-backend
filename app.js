@@ -18,6 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({ origin: config.ALLOWLIST_HOSTS, credentials: true }));
 app.use(express.json());
@@ -29,7 +30,7 @@ routes(app);
 // app.use((req, res, next) => {
 //     next(appError(404, '40401', '無此路由資訊'));
 // });
-app.get('/room/:roomID', (req, res) => {
+app.get('/game_room/:roomID', (req, res) => {
     const roomID = req.params.roomID;
     res.render('room', {
       roomID,
