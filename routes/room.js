@@ -22,19 +22,19 @@ router.post('/create', async function (req, res, next) {
     */
     roomController.create(req, res, next);
 });
-// router.get('/available', async function (req, res, next) {
-//     /**
-//      * #swagger.tags = ['Room']
-//      * #swagger.summary = '瀏覽可使用房間列表 (Get available the list of room)'
-//      */
-//     /**
-//     #swagger.security=[{"Bearer": []}],
-//     #swagger.responses[200] = {
-//       description: 'OK',
-//       schema: { $ref: '#/definitions/Success' }
-//     }    
-//     */
-//     roomController.getInfoForm(req, res, next);
-// });
+router.get('/available', async function (req, res, next) {
+    /**
+     * #swagger.tags = ['Room']
+     * #swagger.summary = '瀏覽可使用房間列表 (Get available the list of room)'
+     */
+    /**
+    #swagger.security=[{"Bearer": []}],
+    #swagger.responses[200] = {
+      description: 'OK',
+      schema: { $ref: '#/definitions/Success' }
+    }    
+    */
+    roomController.available(req, res, next);
+});
 
 export default router;

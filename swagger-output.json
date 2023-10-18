@@ -173,6 +173,28 @@
           }
         ]
       }
+    },
+    "/room/available": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "瀏覽可使用房間列表 (Get available the list of room)",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
     }
   },
   "definitions": {

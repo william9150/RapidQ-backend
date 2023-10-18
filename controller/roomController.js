@@ -6,6 +6,7 @@ const roomController = {
     // Extract the room data from the request body
     const roomData = req.body;
     roomData.createId = req.user._id;
+    roomData.status = "尚未開始";
     // Function to handle duplicate room names
     const handleDuplicateName = async (name) => {
       let newName = name;
@@ -37,8 +38,13 @@ const roomController = {
     } catch (error) {
       return res.status(500).json({ error: error });
     }
-  },
-)}
+  }),
+  available: handleErrorAsync(async (req, res, next) => {
+    const createId = req.user._id;
+    const room_list = await roomModel.find({ createId: createId, status: "尚未開始" });
+    res.status(201).json(room_list);
+  })
+}
 
 
 export default roomController;
