@@ -10,5 +10,4 @@ export default (route) => {
   route.use('/account', isAuth, accountRoutes);
   route.use('/auth', oauthRoutes);
   route.use('/room', roomRoutes);
-
 };

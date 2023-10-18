@@ -84,7 +84,6 @@
       socket.on('sys', function (sysMsg, users) {
         var message = '<div class="sysMsg">' + sysMsg + '</div>';
         $('#msglog').append(message);
-
         $('#count').text(users.length);
         $('#users').text(users);
       });
@@ -105,7 +104,7 @@
         if ($(this).text() === '退出房間') {
           $(this).text('加入房間');
           socket.emit('leave');
-          var msg = '你已經退出了房間,重新聊天請按「加入房間」"';
+          var msg = '你已經退出了房間,重新聊天請按「加入房間」';
           $('#msglog').append('<div class="sysMsg">'+msg+'</div>');
         } else {
           $(this).text('退出房間');
