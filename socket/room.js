@@ -40,6 +40,18 @@ const setupSocket = (server, roomInfo) => {
       }
       socketIO.to(roomID).emit('msg', user, msg);
     });
+
+    socket.on('disconnect', () => {
+        // Handle user disconnecting
+        if (user) {
+          const index = roomInfo[roomID].indexOf(user);
+          if (index !== -1) {
+            roomInfo[roomID].splice(index, 1);
+            socketIO.to(roomID).emit('sys', `${user}斷線了`, roomInfo[roomID]);
+            console.log(`${user}斷線了`);
+          }
+        }
+      });
   });
 
   return socketIO;

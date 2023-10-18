@@ -99,19 +99,25 @@
         }
       });
 
-      // 退出房間
+      /// 退出房间
       $('#joinOrLeave').click(function () {
         if ($(this).text() === '退出房間') {
           $(this).text('加入房間');
           socket.emit('leave');
           var msg = '你已經退出了房間,重新聊天請按「加入房間」';
-          $('#msglog').append('<div class="sysMsg">'+msg+'</div>');
+          $('#msglog').append('<div class="sysMsg">'+msg+'</div');
+
+          // 禁用消息发送框
+          $('#messageInput').prop('disabled', true);
         } else {
           $(this).text('退出房間');
           socket.emit('join', userName);
-        }
 
+          // 启用消息发送框
+          $('#messageInput').prop('disabled', false);
+        }
       });
+
     });
   </script>
 </body>
