@@ -30,7 +30,7 @@ const app = app => {
   consola.info('Socketio initialised!');
 
   const classicMode = io.of('/classic-mode');
-  classicMode.use(verifySocker).on('connection', async socket => {
+  classicMode.use(verifysocket).on('connection', async socket => {
     const { username, roomId, password, action, options } = socket.handshake.query;
     const room = new Room({ io: classicMode, socket, username, roomId, password, action, options });
 
@@ -49,7 +49,7 @@ const app = app => {
   return io;
 };
 
-const verifySocker = (socket, next) => {
+const verifysocket = (socket, next) => {
   if (socket.handshake.query && socket.handshake.query.token) {
     const decoded = verifyToken(socket.handshake.query.token);
     socket.decoded = decoded;

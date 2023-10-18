@@ -14,7 +14,7 @@ export default class Room {
     /** @type { Server } */
     this.io = options.io; // Shortname for -> io.of('/your_namespace_here')
     /** @type { Socket } */
-    this.socker = options.socket;
+    this.socket = options.socket;
     this.username = options.username;
     this.roomId = options.roomId;
     this.password = options.password; // Optional
@@ -59,14 +59,14 @@ export default class Room {
       if (clients.size > 0) {
         if (this.store.password && !(await bcrypt.compare(this.password, this.store.password))) {
           consola.info(`[JOIN FAILED] Incorrect password for room ${this.roomId}`);
-          this.socker.emit('Error: Incorrect password!');
+          this.socket.emit('Error: Incorrect password!');
           return false;
         }
 
-        await this.socker.join(this.roomId);
-        this.store.clients.push({ id: this.socker.id, username, isReady: false });
-        this.socker.username = username;
-        this.socker.emit('[SUCCESS] Successfully initialised', {
+        await this.socket.join(this.roomId);
+        this.store.clients.push({ id: this.socket.id, username, isReady: false });
+        this.socket.username = username;
+        this.socket.emit('[SUCCESS] Successfully initialised', {
           roomId: this.roomId,
           password: this.password,
           options: this.options,
@@ -76,7 +76,7 @@ export default class Room {
       }
 
       consola.warn(`[JOIN FAILED] Client denied join, as roomId ${this.roomId} not created`);
-      this.socker.emit('Error: Create a room first!');
+      this.socket.emit('Error: Create a room first!');
       return false;
     }
 
@@ -86,18 +86,18 @@ export default class Room {
       //     If not, emit 'invalid operation: room already exists'
 
       if (clients.size === 0) {
-        await this.socker.join(this.roomId);
+        await this.socket.join(this.roomId);
         this.store = this.store.rooms.get(this.roomId);
 
         if (this.password) {
           this.store.password = await bcrypt.hash(this.password, SALT_ROUNDS);
         }
 
-        this.store.clients = [{ id: this.socker.id, username, isReady: false }];
+        this.store.clients = [{ id: this.socket.id, username, isReady: false }];
 
-        this.socker.username = username;
+        this.socket.username = username;
         consola.info(`[CREATE] Client created and joined room ${this.roomId}`);
-        this.socker.emit('[SUCCESS] Successfully initialised', {
+        this.socket.emit('[SUCCESS] Successfully initialised', {
           roomId: this.roomId,
           password: this.password,
           options: this.options,
@@ -106,7 +106,7 @@ export default class Room {
       }
 
       consola.warn(`[CREATE FAILED] Client denied create, as roomId ${this.roomId} already present`);
-      this.socker.emit('Error: Room already created. Join the room!');
+      this.socket.emit('Error: Room already created. Join the room!');
       return false;
     }
   }
@@ -137,9 +137,9 @@ export default class Room {
    * @access public
    */
   isReady() {
-    this.socker.on('is-ready', () => {
+    this.socket.on('is-ready', () => {
       for (const player of this.store.clients) {
-        if (player.id === this.socker.id) {
+        if (player.id === this.socket.id) {
           player.isReady = true;
         }
       }
@@ -177,12 +177,12 @@ export default class Room {
    * @access    public
    */
   shiftTurn() {
-    this.socker.on('player-turn-pass', (item = undefined) => {
+    this.socket.on('player-turn-pass', (item = undefined) => {
       // NAME Change: player-turn-trigger would be better name
-      if (this.store.clients[this.store.draft.turnNum].id === this.socker.id) {
+      if (this.store.clients[this.store.draft.turnNum].id === this.socket.id) {
         // Add the selected item object to the collection
         if (item) {
-          this.store.draft.teams[this.socker.id] = [...(this.store.draft.teams[this.socker.id] || []), item];
+          this.store.draft.teams[this.socket.id] = [...(this.store.draft.teams[this.socket.id] || []), item];
         }
 
         this._resetTimeOut();
@@ -289,9 +289,9 @@ export default class Room {
    * @access    public
    */
   onDisconnect() {
-    this.socker.on('disconnect', () => {
+    this.socket.on('disconnect', () => {
       try {
-        this.store.clients = this.store.clients.filter(player => player.id !== this.socker.id);
+        this.store.clients = this.store.clients.filter(player => player.id !== this.socket.id);
         this.showPlayers();
 
         // Handle game reset

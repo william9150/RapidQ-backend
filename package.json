@@ -7,9 +7,9 @@
     "node": ">=12.19.0"
   },
   "scripts": {
-    "start": "node build/app.js",
-    "dev": "cross-env NODE_ENV=dev nodemon app.js",
-    "prod": "cross-env NODE_ENV=prod nodemon app.js",
+    "start": "node ./bin/www",
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www",
+    "prod": "cross-env NODE_ENV=prod nodemon ./bin/www",
     "dev_temp": "nodemon --exec app.js",
     "lint": "xo",
     "swagger": "node ./swagger.js"
@@ -37,14 +37,17 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "hbs": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.9",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
     "socket.io": "^3.0.0",
     "socket.io-redis": "^6.0.1",
     "swagger-autogen": "^2.23.1",
     "swagger-ui-express": "^4.6.2",
+    "uuid": "^9.0.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
