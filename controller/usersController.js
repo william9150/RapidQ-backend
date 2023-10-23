@@ -13,13 +13,8 @@ const usersController = {
     if (user.password !== password) {
       return response.json({ message: '使用者或密碼不正確2' });
     }
-    const token = generateJwtToken(user._id);
-    console.log('token傳不回前端，先印在這邊:', token);
-    response.status(200).json(
-      getHttpResponse({
-        token,
-      })
-    );
+    const token = await generateJwtToken(user._id);
+    return response.json({ token: token });
   }),
   getOne: (request, response, _) => {
     usersModel.findById(request.params.id, (error, user) => {
