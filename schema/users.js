@@ -13,6 +13,11 @@ const usersSchema = new mongoose.Schema({
     select: false,
     trim: true,
   },
+  password: {
+    type: String,
+    select: false,
+    trim: true,
+  },
   phone: {
     type: String,
     trim: true,
