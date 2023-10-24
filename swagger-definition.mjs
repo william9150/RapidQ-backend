@@ -93,25 +93,23 @@ const repoSuccess = {
 const questionSuccess = {
   status: 'success',
   data: {
-    question: {
-      answer: [2],
-      _id: '65373c01799ca45b48049b26',
-      type: 'Single',
-      title: '第一題',
-      imgUrl: null,
-      options: [
-        {
-          idx: 1,
-          desc: '選項1',
-          imgUrl: null,
-        },
-        {
-          idx: 2,
-          desc: '選項2',
-          imgUrl: null,
-        },
-      ],
-    },
+    answer: [2],
+    _id: '65373c01799ca45b48049b26',
+    type: 'Single',
+    title: '第一題',
+    imgUrl: null,
+    options: [
+      {
+        idx: 1,
+        desc: '選項1',
+        imgUrl: null,
+      },
+      {
+        idx: 2,
+        desc: '選項2',
+        imgUrl: null,
+      },
+    ],
   },
 };
 const reposSuccess = {

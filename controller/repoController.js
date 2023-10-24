@@ -78,7 +78,10 @@ const reposController = {
     if (!repo) {
       return response.status(404).json({ message: 'Repo not found' });
     }
-    response.json(repo);
+    response.json({
+      status: 'success',
+      data: repo,
+    });
   }),
   //Repo-01-06:更新指定的repo(題庫名稱與狀態)
   updateRepo: handleErrorAsync(async (request, response, next) => {
@@ -105,7 +108,10 @@ const reposController = {
     if (!updatedRepo) {
       return response.status(404).json({ message: 'Repo not found' });
     }
-    response.json(updatedRepo);
+    response.json({
+      status: 'success',
+      data: updatedRepo,
+    });
   }),
 
   //Repo-01-07:在指定的repo中新增題目(需要產生題目id)
@@ -130,9 +136,7 @@ const reposController = {
 
     response.json({
       status: 'success',
-      data: {
-        repo,
-      },
+      data: repo,
     });
   }),
   //Repo-01-08:在指定的repo中修改指定的題目內容
@@ -161,9 +165,7 @@ const reposController = {
 
     response.json({
       status: 'success',
-      data: {
-        repo: updatedRepo,
-      },
+      data: updatedRepo,
     });
   }),
   //Repo-01-09:在指定的repo中取得指定的題目內容
@@ -183,9 +185,7 @@ const reposController = {
 
     response.json({
       status: 'success',
-      data: {
-        question,
-      },
+      data: question,
     });
   }),
   //Repo-01-10:在指定的repo中刪除指定的題目

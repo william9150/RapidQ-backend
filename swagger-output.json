@@ -281,7 +281,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Success"
+              "$ref": "#/definitions/repoSuccess"
             }
           }
         },
@@ -922,47 +922,42 @@
         "data": {
           "type": "object",
           "properties": {
-            "question": {
-              "type": "object",
-              "properties": {
-                "answer": {
-                  "type": "array",
-                  "example": [
-                    2
-                  ],
-                  "items": {
-                    "type": "number"
-                  }
-                },
-                "_id": {
-                  "type": "string",
-                  "example": "65373c01799ca45b48049b26"
-                },
-                "type": {
-                  "type": "string",
-                  "example": "Single"
-                },
-                "title": {
-                  "type": "string",
-                  "example": "第一題"
-                },
-                "imgUrl": {},
-                "options": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "idx": {
-                        "type": "number",
-                        "example": 2
-                      },
-                      "desc": {
-                        "type": "string",
-                        "example": "選項2"
-                      },
-                      "imgUrl": {}
-                    }
-                  }
+            "answer": {
+              "type": "array",
+              "example": [
+                2
+              ],
+              "items": {
+                "type": "number"
+              }
+            },
+            "_id": {
+              "type": "string",
+              "example": "65373c01799ca45b48049b26"
+            },
+            "type": {
+              "type": "string",
+              "example": "Single"
+            },
+            "title": {
+              "type": "string",
+              "example": "第一題"
+            },
+            "imgUrl": {},
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "idx": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "desc": {
+                    "type": "string",
+                    "example": "選項2"
+                  },
+                  "imgUrl": {}
                 }
               }
             }
