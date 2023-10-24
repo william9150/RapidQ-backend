@@ -142,6 +142,61 @@
         }
       }
     },
+    "/auth/email/sign-in": {
+      "post": {
+        "tags": [
+          "Sign-in"
+        ],
+        "summary": "Email登入",
+        "description": "",
+        "parameters": [
+          {
+            "name": "parameter_name",
+            "in": "body",
+            "description": "提供單機版使用email直接登入",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "admin@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "admin"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email登入",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/room/create": {
       "post": {
         "tags": [
@@ -157,6 +212,442 @@
             "schema": {
               "$ref": "#/definitions/createRoomDetail"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/repo/": {
+      "get": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "取得所有Repo (getAll)",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "創建新Repo (createRepo)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repo",
+            "in": "body",
+            "description": "Information for the repo to be created",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repoName": {
+                  "type": "string",
+                  "example": "新專案"
+                },
+                "isPublic": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/repo/{repoId}": {
+      "get": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "取得指定Repo (getOne)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/repoSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "刪除指定Repo (deleteRepo)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "更新指定的Repo(題庫名稱與狀態)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "欲修改之資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "repoName": {
+                  "type": "string",
+                  "example": "新的題庫名稱"
+                },
+                "isPublic": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/repoSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/repo/clone/{repoId}": {
+      "post": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "複製Repo (cloneRepo)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/repoSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/repo/{repoId}/questions": {
+      "post": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "在指定的Repo中新增題目(需要產生題目id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "question",
+            "in": "body",
+            "description": "題目內容",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "Single"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "請輸入題目標題"
+                },
+                "imgUrl": {
+                  "type": "string",
+                  "example": ""
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "idx": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "desc": {
+                        "type": "string",
+                        "example": "選項2"
+                      },
+                      "imgUrl": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                },
+                "answer": {
+                  "type": "array",
+                  "example": [
+                    2
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/repoSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/repo/{repoId}/questions/{questionId}": {
+      "put": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "在指定的Repo中修改題目內容",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "question",
+            "in": "body",
+            "description": "題目內容",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "Single"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "請輸入題目標題"
+                },
+                "imgUrl": {
+                  "type": "string",
+                  "example": ""
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "idx": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "desc": {
+                        "type": "string",
+                        "example": "選項2"
+                      },
+                      "imgUrl": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                },
+                "answer": {
+                  "type": "array",
+                  "example": [
+                    2
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/questionSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "在指定的Repo中取得指定題目內容",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/questionSuccess"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Repo"
+        ],
+        "summary": "在指定的Repo中刪除指定題目",
+        "description": "",
+        "parameters": [
+          {
+            "name": "repoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "questionId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -329,6 +820,153 @@
         "message": {
           "type": "string",
           "example": "第三方登入 google - 註冊"
+        }
+      }
+    },
+    "repoSuccess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "repoName": {
+              "type": "string",
+              "example": "題庫名稱"
+            },
+            "isDelete": {
+              "type": "boolean",
+              "example": false
+            },
+            "isPublic": {
+              "type": "boolean",
+              "example": true
+            },
+            "_id": {
+              "type": "string",
+              "example": "65372af80f548077046dd4f7"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2023-10-24T03:37:37.533Z"
+            },
+            "userId": {
+              "type": "string",
+              "example": "65371d8861089a5098b1f8da"
+            },
+            "questions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": "array",
+                    "example": [
+                      2
+                    ],
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "6537368ed0a3c7678c4ae8b8"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "Single"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "第一題"
+                  },
+                  "imgUrl": {},
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "idx": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "desc": {
+                          "type": "string",
+                          "example": "選項2"
+                        },
+                        "imgUrl": {}
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2023-10-24T02:24:56.867Z"
+            }
+          }
+        }
+      }
+    },
+    "questionSuccess": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "object",
+              "properties": {
+                "answer": {
+                  "type": "array",
+                  "example": [
+                    2
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "65373c01799ca45b48049b26"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "Single"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "第一題"
+                },
+                "imgUrl": {},
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "idx": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "desc": {
+                        "type": "string",
+                        "example": "選項2"
+                      },
+                      "imgUrl": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

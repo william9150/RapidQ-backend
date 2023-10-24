@@ -32,32 +32,27 @@ const questionSchema = new mongoose.Schema({
   },
 });
 
-const reposSchema = new mongoose.Schema({
-  repoName: {
-    type: String,
-    default: '未命名題庫',
+const reposSchema = new mongoose.Schema(
+  {
+    repoName: {
+      type: String,
+      default: '未命名題庫',
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    questions: [questionSchema],
+    isDelete: {
+      type: Boolean,
+      default: false,
+    },
+    isPublic: {
+      type: Boolean,
+      default: true,
+    },
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
-  questions: [questionSchema],
-  isDelete: {
-    type: Boolean,
-    default: false,
-  },
-  isPublic: {
-    type: Boolean,
-    default: true,
-  },
-  createAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  { timestamps: true }
+);
 
 export default reposSchema;
 export { questionSchema, optionSchema };

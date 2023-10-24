@@ -24,7 +24,7 @@ router.get('/:repoId', async function (req, res, next) {
     #swagger.security=[{"Bearer": []}],    
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/repoSuccess' }
     }    
     */
 });
@@ -47,7 +47,7 @@ router.post('/', async function (req, res, next) {
     }
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/repoSuccess' }
     }    
     */
 });
@@ -56,11 +56,11 @@ router.post('/clone/:repoId', async function (req, res, next) {
   repoController.cloneRepo(req, res, next);
   /**
     #swagger.tags = ['Repo']
-    #swagger.summary = '複製Repo (cloneRepo) [Not yet implemented]'  
+    #swagger.summary = '複製Repo (cloneRepo)'  
     #swagger.security=[{"Bearer": []}],    
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/repoSuccess' }
     }    
     */
 });
@@ -82,11 +82,21 @@ router.put('/:repoId', async function (req, res, next) {
   repoController.updateRepo(req, res, next);
   /**
     #swagger.tags = ['Repo']
-    #swagger.summary = '更新指定的Repo(題庫名稱與狀態) [Not yet implemented]'  
-    #swagger.security=[{"Bearer": []}],    
+    #swagger.summary = '更新指定的Repo(題庫名稱與狀態)'
+    #swagger.security=[{"Bearer": []}],   
+    #swagger.parameters['data'] = {
+      in: 'body',
+      description: '欲修改之資料',
+      required: true,
+      type: 'object',
+      schema: {
+        repoName: '新的題庫名稱',
+        isPublic: true
+      }
+    }    
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/repoSuccess' }
     }    
   */
 });
@@ -99,7 +109,7 @@ router.post('/:repoId/questions', async function (req, res, next) {
     #swagger.security=[{"Bearer": []}], 
     #swagger.parameters['question'] = {
       in: 'body',
-      description: 'Information for the repo to be created',
+      description: '題目內容',
       required: true,
       type: 'object',
       schema: {
@@ -110,12 +120,12 @@ router.post('/:repoId/questions', async function (req, res, next) {
           {idx: 1, desc: '選項1', imgUrl: ''}, 
           {idx: 2, desc: '選項2', imgUrl: ''}
         ],
-        answer: 2,
+        answer: [2],
       }
     }   
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/repoSuccess' }
     }    
   */
 });
@@ -124,11 +134,27 @@ router.put('/:repoId/questions/:questionId', async function (req, res, next) {
   repoController.updateQuestion(req, res, next);
   /**
     #swagger.tags = ['Repo']
-    #swagger.summary = '在指定的Repo中修改題目內容 [Not yet implemented]'  
+    #swagger.summary = '在指定的Repo中修改題目內容'  
     #swagger.security=[{"Bearer": []}],    
+    #swagger.parameters['question'] = {
+      in: 'body',
+      description: '題目內容',
+      required: true,
+      type: 'object',
+      schema: {
+        type: 'Single',
+        title: '請輸入題目標題',
+        imgUrl: '',
+        options: [
+          {idx: 1, desc: '選項1', imgUrl: ''}, 
+          {idx: 2, desc: '選項2', imgUrl: ''}
+        ],
+        answer: [2],
+      }
+    }  
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/questionSuccess' }
     }    
   */
 });
@@ -137,11 +163,11 @@ router.get('/:repoId/questions/:questionId', async function (req, res, next) {
   repoController.getQuestion(req, res, next);
   /**
     #swagger.tags = ['Repo']
-    #swagger.summary = '在指定的Repo中取得指定題目內容 [Not yet implemented]'  
+    #swagger.summary = '在指定的Repo中取得指定題目內容'  
     #swagger.security=[{"Bearer": []}],    
     #swagger.responses[200] = {
       description: 'OK',
-      schema: { $ref: '#/definitions/Success' }
+      schema: { $ref: '#/definitions/questionSuccess' }
     }    
   */
 });
@@ -150,7 +176,7 @@ router.delete('/:repoId/questions/:questionId', async function (req, res, next) 
   repoController.deleteQuestion(req, res, next);
   /**
     #swagger.tags = ['Repo']
-    #swagger.summary = '在指定的Repo中刪除指定題目 [Not yet implemented]'  
+    #swagger.summary = '在指定的Repo中刪除指定題目'  
     #swagger.security=[{"Bearer": []}],    
     #swagger.responses[200] = {
       description: 'OK',
