@@ -62,7 +62,7 @@ const reposController = {
   }),
 
   //Repo-01-05:刪除指定的repo
-  delete: handleErrorAsync(async (request, response, _) => {
+  deleteRepo: handleErrorAsync(async (request, response, _) => {
     reposModel.findOneAndUpdate(
       { _id: request.params.id }, //查詢條件
       { isDelete: true }, // 更新內容
